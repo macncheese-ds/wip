@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Scanner - Registrations</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+    }
+    
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    header h1 {
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    /* MAIN PAGE */
+    #main-page {
+      display: none;
+    }
+    
+    #main-page.active {
+      display: block;
+    }
+    
+    .main-header {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+      padding: 10px 15px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    
+    .search-box:focus {
+      border-color: #667eea;
+    }
+    
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .btn-primary {
+      background: #667eea;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #5568d3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102,126,234,0.3);
+    }
+    
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+    }
+    
+    .btn-secondary:hover {
+      background: #e0e0e0;
+    }
+    
+    .btn-success {
+      background: #10b981;
+      color: white;
+    }
+    
+    .btn-success:hover {
+      background: #059669;
+    }
+    
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+    }
+    
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+    
+    /* Registration cards */
+    .registrations-grid {
+      display: grid;
+      gap: 15px;
+    }
+    
+    .reg-card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: all 0.3s;
+      border-left: 4px solid #667eea;
+    }
+    
+    .reg-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+    
+    .reg-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .reg-card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #333;
+    }
+    
+    .reg-card-status {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .status-in-progress {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    
+    .status-completed {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    
+    .reg-card-date {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 15px;
+    }
+    
+    .reg-card-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    
+    .stat {
+      background: #f9fafb;
+      padding: 10px;
+      border-radius: 4px;
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: #667eea;
+    }
+    
+    .stat-label {
+      font-size: 12px;
+      color: #666;
+      margin-top: 3px;
+    }
+    
+    .stat.good .stat-value { color: #10b981; }
+    .stat.not-good .stat-value { color: #ef4444; }
+    .stat.repair .stat-value { color: #f59e0b; }
+    .stat.validation .stat-value { color: #3b82f6; }
+    
+    /* DETAIL PAGE */
+    #detail-page {
+      display: none;
+    }
+    
+    #detail-page.active {
+      display: block;
+    }
+    
+    .detail-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .detail-title {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    
+    .detail-title h2 {
+      font-size: 24px;
+    }
+    
+    .detail-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .qr-input-section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .qr-input-group {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .qr-input {
+      flex: 1;
+      padding: 12px 15px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 18px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    
+    .qr-input:focus {
+      border-color: #667eea;
+    }
+    
+    .qr-message {
+      margin-top: 10px;
+      padding: 10px 15px;
+      border-radius: 6px;
+      display: none;
+    }
+    
+    .qr-message.success {
+      background: #d1fae5;
+      color: #065f46;
+      display: block;
+    }
+    
+    .qr-message.error {
+      background: #fee2e2;
+      color: #991b1b;
+      display: block;
+    }
+    
+    /* 4 Section layout */
+    .sections-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    @media (max-width: 1200px) {
+      .sections-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .sections-container {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .section {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 400px;
+    }
+    
+    .section-header {
+      padding: 15px;
+      border-bottom: 2px solid #ddd;
+      font-weight: 700;
+      font-size: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .section.good .section-header {
+      background: #d1fae5;
+      color: #065f46;
+      border-color: #10b981;
+    }
+    
+    .section.not-good .section-header {
+      background: #fee2e2;
+      color: #991b1b;
+      border-color: #ef4444;
+    }
+    
+    .section.repair .section-header {
+      background: #fef3c7;
+      color: #92400e;
+      border-color: #f59e0b;
+    }
+    
+    .section.validation .section-header {
+      background: #dbeafe;
+      color: #0c4a6e;
+      border-color: #3b82f6;
+    }
+    
+    .section-count {
+      background: rgba(0,0,0,0.1);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+    
+    .section-items {
+      padding: 15px;
+      flex: 1;
+      overflow-y: auto;
+      background: #fafafa;
+    }
+    
+    .item {
+      background: white;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      cursor: move;
+      border: 2px solid #ddd;
+      transition: all 0.2s;
+    }
+    
+    .item:hover {
+      border-color: #667eea;
+      box-shadow: 0 2px 8px rgba(102,126,234,0.2);
+    }
+    
+    .item.dragging {
+      opacity: 0.5;
+    }
+    
+    .item-part {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 3px;
+    }
+    
+    .item-model {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 5px;
+    }
+    
+    .item-qty {
+      font-size: 14px;
+      font-weight: 700;
+      color: #667eea;
+    }
+    
+    .item-actions {
+      display: flex;
+      gap: 5px;
+      margin-top: 8px;
+    }
+    
+    .item-btn {
+      flex: 1;
+      padding: 4px 8px;
+      border: none;
+      border-radius: 3px;
+      font-size: 11px;
+      cursor: pointer;
+      background: #f0f0f0;
+      color: #333;
+      transition: all 0.2s;
+    }
+    
+    .item-btn:hover {
+      background: #e0e0e0;
+    }
+    
+    .item-btn.remove {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    
+    .item-btn.remove:hover {
+      background: #fecaca;
+    }
+    
+    .empty-state {
+      text-align: center;
+      color: #999;
+      padding: 30px 15px;
+      font-style: italic;
+    }
+    
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal.active {
+      display: flex;
+    }
+    
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      max-width: 400px;
+      width: 90%;
+    }
+    
+    .modal-content h2 {
+      margin-bottom: 15px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📱 QR Scanner - Registrations</h1>
+    <p>Scan items into GOOD | NOT GOOD | REPAIR | VALIDATION sections</p>
+  </header>
+  
+  <div class="container">
+    
+    <!-- MAIN PAGE -->
+    <div id="main-page" class="active">
+      <div class="main-header">
+        <input type="text" id="search-input" class="search-box" placeholder="Search by batch number or date...">
+        <button class="btn btn-primary" onclick="openNewRegistration()">+ New Registration</button>
+      </div>
+      
+      <div id="registrations-list" class="registrations-grid">
+        <div style="text-align: center; color: #999; padding: 40px;">
+          Loading registrations...
+        </div>
+      </div>
+    </div>
+    
+    <!-- DETAIL PAGE -->
+    <div id="detail-page">
+      <div class="detail-header">
+        <div class="detail-title">
+          <button class="btn btn-secondary" onclick="goBackToMain()">← Back</button>
+          <div>
+            <h2 id="detail-batch-number"></h2>
+            <small id="detail-date" style="color: #666;"></small>
+          </div>
+        </div>
+        <div class="detail-actions">
+          <span id="detail-status" class="reg-card-status"></span>
+          <button class="btn btn-success" id="save-btn" onclick="saveRegistration()">✓ Save & Complete</button>
+        </div>
+      </div>
+      
+      <div class="qr-input-section">
+        <p style="margin-bottom: 10px; color: #666;">Scan a QR code (automatically goes to GOOD section, drag to move)</p>
+        <div class="qr-input-group">
+          <input type="text" id="qr-scan-input" class="qr-input" placeholder="Scan QR code here... (P00.558-00 900 250814-004)" autofocus>
+        </div>
+        <div id="qr-message" class="qr-message"></div>
+      </div>
+      
+      <!-- 4 Sections -->
+      <div class="sections-container">
+        <!-- GOOD Section -->
+        <div class="section good" ondrop="allowDrop(event)" ondragover="allowDragOver(event)">
+          <div class="section-header">
+            ✓ GOOD
+            <span class="section-count" id="count-good">0</span>
+          </div>
+          <div class="section-items" id="section-good"></div>
+        </div>
+        
+        <!-- NOT GOOD Section -->
+        <div class="section not-good" ondrop="allowDrop(event)" ondragover="allowDragOver(event)">
+          <div class="section-header">
+            ✗ NOT GOOD
+            <span class="section-count" id="count-not-good">0</span>
+          </div>
+          <div class="section-items" id="section-not-good"></div>
+        </div>
+        
+        <!-- REPAIR Section -->
+        <div class="section repair" ondrop="allowDrop(event)" ondragover="allowDragOver(event)">
+          <div class="section-header">
+            🔧 REPAIR
+            <span class="section-count" id="count-repair">0</span>
+          </div>
+          <div class="section-items" id="section-repair"></div>
+        </div>
+        
+        <!-- VALIDATION Section -->
+        <div class="section validation" ondrop="allowDrop(event)" ondragover="allowDragOver(event)">
+          <div class="section-header">
+            ✔ VALIDATION
+            <span class="section-count" id="count-validation">0</span>
+          </div>
+          <div class="section-items" id="section-validation"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- New Registration Modal -->
+  <div id="new-reg-modal" class="modal">
+    <div class="modal-content">
+      <h2>Create New Registration</h2>
+      <div class="form-group">
+        <label>Batch Number:</label>
+        <input type="text" id="batch-number-input" placeholder="e.g., BATCH-2026-03-28-001">
+      </div>
+      <div class="form-group">
+        <label>Registration Date:</label>
+        <input type="date" id="registration-date-input">
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
+        <button class="btn btn-primary" onclick="createNewRegistration()">Create</button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    const API_URL = 'http://localhost:3000/api';
+    let currentRegistrationId = null;
+    let registrationItems = {};
+    let draggedItemId = null;
+    
+    // Initialize
+    window.addEventListener('load', () => {
+      setDefaultDate();
+      loadRegistrations();
+    });
+    
+    function setDefaultDate() {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('registration-date-input').value = today;
+    }
+    
+    // === MAIN PAGE FUNCTIONS ===
+    
+    async function loadRegistrations(search = '') {
+      try {
+        const url = search 
+          ? `${API_URL}/registrations?search=${encodeURIComponent(search)}`
+          : `${API_URL}/registrations`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        const listDiv = document.getElementById('registrations-list');
+        
+        if (data.registrations.length === 0) {
+          listDiv.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #999; padding: 40px;">No registrations found</div>';
+          return;
+        }
+        
+        listDiv.innerHTML = data.registrations.map(reg => `
+          <div class="reg-card" onclick="openRegistrationDetail(${reg.id})">
+            <div class="reg-card-header">
+              <div class="reg-card-title">${reg.batch_number}</div>
+              <span class="reg-card-status ${reg.status === 'in_progress' ? 'status-in-progress' : 'status-completed'}">
+                ${reg.status.toUpperCase()}
+              </span>
+            </div>
+            <div class="reg-card-date">${new Date(reg.registration_date).toLocaleDateString()}</div>
+            <div class="reg-card-stats">
+              <div class="stat good">
+                <div class="stat-value">${reg.good_qty || 0}</div>
+                <div class="stat-label">GOOD</div>
+              </div>
+              <div class="stat not-good">
+                <div class="stat-value">${reg.not_good_qty || 0}</div>
+                <div class="stat-label">NOT GOOD</div>
+              </div>
+              <div class="stat repair">
+                <div class="stat-value">${reg.repair_qty || 0}</div>
+                <div class="stat-label">REPAIR</div>
+              </div>
+              <div class="stat validation">
+                <div class="stat-value">${reg.validation_qty || 0}</div>
+                <div class="stat-label">VALID</div>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      } catch (error) {
+        console.error('Error loading registrations:', error);
+      }
+    }
+    
+    document.getElementById('search-input')?.addEventListener('input', (e) => {
+      loadRegistrations(e.target.value);
+    });
+    
+    function openNewRegistration() {
+      document.getElementById('new-reg-modal').classList.add('active');
+    }
+    
+    function closeModals() {
+      document.getElementById('new-reg-modal').classList.remove('active');
+    }
+    
+    async function createNewRegistration() {
+      const batchNumber = document.getElementById('batch-number-input').value.trim();
+      const regDate = document.getElementById('registration-date-input').value;
+      
+      if (!batchNumber) {
+        alert('Enter a batch number');
+        return;
+      }
+      
+      try {
+        const response = await fetch(`${API_URL}/registrations`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            batch_number: batchNumber,
+            registration_date: regDate
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          closeModals();
+          document.getElementById('batch-number-input').value = '';
+          openRegistrationDetail(data.data.registration_id);
+          loadRegistrations();
+        } else {
+          alert('Error: ' + data.error);
+        }
+      } catch (error) {
+        alert('Error creating registration: ' + error.message);
+      }
+    }
+    
+    // === DETAIL PAGE FUNCTIONS ===
+    
+    function goBackToMain() {
+      document.getElementById('detail-page').classList.remove('active');
+      document.getElementById('main-page').classList.add('active');
+      loadRegistrations();
+    }
+    
+    async function openRegistrationDetail(regId) {
+      currentRegistrationId = regId;
+      
+      try {
+        const response = await fetch(`${API_URL}/registrations/${regId}`);
+        const data = await response.json();
+        
+        // Update header
+        document.getElementById('detail-batch-number').textContent = data.registration.batch_number;
+        document.getElementById('detail-date').textContent = new Date(data.registration.registration_date).toLocaleDateString();
+        
+        const statusElement = document.getElementById('detail-status');
+        statusElement.textContent = data.registration.status.toUpperCase();
+        statusElement.className = `reg-card-status ${data.registration.status === 'in_progress' ? 'status-in-progress' : 'status-completed'}`;
+        
+        // Update save button
+        const saveBtn = document.getElementById('save-btn');
+        if (data.registration.status === 'completed') {
+          saveBtn.style.display = 'none';
+        } else {
+          saveBtn.style.display = 'block';
+        }
+        
+        // Clear sections
+        ['good', 'not-good', 'repair', 'validation'].forEach(section => {
+          document.getElementById(`section-${section}`).innerHTML = '';
+          document.getElementById(`count-${section}`).textContent = '0';
+        });
+        
+        // Populate items
+        registrationItems = data.items;
+        const sections = ['good', 'not_good', 'repair', 'validation'];
+        let totalCounts = { good: 0, not_good: 0, repair: 0, validation: 0 };
+        
+        sections.forEach(section => {
+          const sectionKey = section.replace('_', '-');
+          const items = data.items[section] || [];
+          const container = document.getElementById(`section-${sectionKey}`);
+          
+          if (items.length === 0) {
+            container.innerHTML = '<div class="empty-state">No items</div>';
+          } else {
+            container.innerHTML = items.map(item => `
+              <div class="item" draggable="true" ondragstart="dragStart(event, ${item.id}, '${section}')" ondragend="dragEnd()">
+                <div class="item-part">${item.part_number}</div>
+                <div class="item-model">${item.model}</div>
+                <div class="item-qty">${item.quantity} units</div>
+                <div class="item-actions">
+                  <button class="item-btn" onclick="moveToSection(${item.id}, 'good')">GOOD</button>
+                  <button class="item-btn" onclick="moveToSection(${item.id}, 'not_good')">BAD</button>
+                  <button class="item-btn" onclick="moveToSection(${item.id}, 'repair')">FIX</button>
+                  <button class="item-btn" onclick="moveToSection(${item.id}, 'validation')">VALID</button>
+                  <button class="item-btn remove" onclick="removeItem(${item.id})">×</button>
+                </div>
+              </div>
+            `).join('');
+          }
+          
+          totalCounts[section.replace('-', '_')] = items.reduce((sum, i) => sum + i.quantity, 0);
+          document.getElementById(`count-${sectionKey}`).textContent = items.length;
+        });
+        
+        // Switch to detail page
+        document.getElementById('main-page').classList.remove('active');
+        document.getElementById('detail-page').classList.add('active');
+        document.getElementById('qr-scan-input').focus();
+      } catch (error) {
+        alert('Error loading registration: ' + error.message);
+      }
+    }
+    
+    // QR Scanning
+    document.getElementById('qr-scan-input')?.addEventListener('keypress', async (e) => {
+      if (e.key === 'Enter') {
+        const qrCode = e.target.value.trim();
+        if (!qrCode) return;
+        
+        const msgDiv = document.getElementById('qr-message');
+        
+        try {
+          const response = await fetch(`${API_URL}/registrations/${currentRegistrationId}/items`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ qr_code: qrCode })
+          });
+          
+          const data = await response.json();
+          
+          if (response.ok) {
+            msgDiv.className = 'qr-message success';
+            msgDiv.textContent = `✓ Added: ${data.data.part_number} (${data.data.quantity} units)`;
+            e.target.value = '';
+            
+            // Reload detail
+            setTimeout(() => openRegistrationDetail(currentRegistrationId), 500);
+          } else {
+            msgDiv.className = 'qr-message error';
+            msgDiv.textContent = '✗ Error: ' + data.error;
+          }
+        } catch (error) {
+          msgDiv.className = 'qr-message error';
+          msgDiv.textContent = '✗ Error: ' + error.message;
+        }
+      }
+    });
+    
+    // Drag and Drop
+    function dragStart(e, itemId, section) {
+      draggedItemId = { id: itemId, section };
+      e.target.closest('.item').classList.add('dragging');
+    }
+    
+    function dragEnd() {
+      document.querySelectorAll('.item.dragging').forEach(el => el.classList.remove('dragging'));
+    }
+    
+    function allowDragOver(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+    }
+    
+    async function allowDrop(e) {
+      e.preventDefault();
+      
+      const section = e.target.closest('.section');
+      const newSection = Array.from(section.parentElement.children).indexOf(section);
+      const sections = ['good', 'not_good', 'repair', 'validation'];
+      const newSectionName = sections[newSection];
+      
+      if (draggedItemId && draggedItemId.section !== newSectionName) {
+        await moveToSection(draggedItemId.id, newSectionName);
+      }
+      
+      dragEnd();
+    }
+    
+    // Move item to section
+    async function moveToSection(itemId, newSection) {
+      try {
+        const response = await fetch(`${API_URL}/registrations/${currentRegistrationId}/items/${itemId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ new_section: newSection })
+        });
+        
+        if (response.ok) {
+          await openRegistrationDetail(currentRegistrationId);
+        } else {
+          const data = await response.json();
+          alert('Error: ' + data.error);
+        }
+      } catch (error) {
+        alert('Error moving item: ' + error.message);
+      }
+    }
+    
+    // Remove item
+    async function removeItem(itemId) {
+      if (!confirm('Remove this item?')) return;
+      
+      try {
+        const response = await fetch(`${API_URL}/registrations/${currentRegistrationId}/items/${itemId}`, {
+          method: 'DELETE'
+        });
+        
+        if (response.ok) {
+          await openRegistrationDetail(currentRegistrationId);
+        } else {
+          const data = await response.json();
+          alert('Error: ' + data.error);
+        }
+      } catch (error) {
+        alert('Error removing item: ' + error.message);
+      }
+    }
+    
+    // Save registration
+    async function saveRegistration() {
+      if (!confirm('Save and complete this registration?')) return;
+      
+      try {
+        const response = await fetch(`${API_URL}/registrations/${currentRegistrationId}/save`, {
+          method: 'POST'
+        });
+        
+        if (response.ok) {
+          alert('✓ Registration saved!');
+          goBackToMain();
+        } else {
+          const data = await response.json();
+          alert('Error: ' + data.error);
+        }
+      } catch (error) {
+        alert('Error saving registration: ' + error.message);
+      }
+    }
+  </script>
+</body>
+</html>

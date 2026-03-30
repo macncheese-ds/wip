@@ -1,0 +1,9 @@
+{
+  "name": "wip-qr-scanner-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for QR code scanning inventory system",
+  "scripts": {
+    "serve": "python -m http.server 8000",
+    "build": "echo 'Static HTML - no build required'"
+  }
+}
