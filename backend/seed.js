@@ -24,7 +24,7 @@ async function seedDatabase() {
           'INSERT INTO parts (part_number, model, description) VALUES (?, ?, ?)',
           [part.part_number, part.model, part.description]
         );
-        console.log(`✓ Added ${part.part_number}`);
+        console.log(`Added ${part.part_number}`);
       } catch (error) {
         if (error.code === 'ER_DUP_ENTRY') {
           console.log(`- ${part.part_number} already exists`);
@@ -34,7 +34,7 @@ async function seedDatabase() {
       }
     }
     
-    console.log('✓ Database seeding complete!');
+    console.log('Database seeding complete!');
   } catch (error) {
     console.error('Error seeding database:', error);
   } finally {

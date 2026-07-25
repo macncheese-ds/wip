@@ -108,7 +108,7 @@ Result: New registration created, redirected to detail page
 
 ### 2. Scan Items (Start in GOOD)
 ```
-Step 1: Scan QR → P00.558-00 900 250814-004
+Step 1: Scan QR -> P00.558-00 900 250814-004
 Step 2: Press Enter
 Step 3: POST /api/registrations/:id/items
 Step 4: INSERT registration_items { section: 'good' }
@@ -132,7 +132,7 @@ Result: Item moved to REPAIR (yellow section)
 
 ### 4. Remove Item
 ```
-Step 1: Click × button on item
+Step 1: Click X button on item
 Step 2: DELETE /api/registrations/:id/items/:item_id
 Step 3: DELETE registration_items
 Step 4: UPDATE registration_summary (reduce counts)
@@ -142,7 +142,7 @@ Result: Item removed from registration
 
 ### 5. Save Registration (Complete)
 ```
-Step 1: Click "✓ Save & Complete"
+Step 1: Click "Save & Complete"
 Step 2: POST /api/registrations/:id/save
 Step 3: UPDATE registrations { status: 'completed', completed_at: NOW() }
 Step 4: Final state snapshot created
@@ -234,10 +234,10 @@ ORDER BY r.completed_at DESC;
 
 ## Advantages of Registration Model
 
-✓ **Clear Work Sessions**: Each batch is a distinct work session  
-✓ **Flexible Sorting**: Move items between sections before committing  
-✓ **Non-Destructive**: Can review and modify before saving  
-✓ **Aggregated View**: Summary auto-updates as you move items  
-✓ **Audit Trail**: Every action logged with timestamp  
-✓ **Batch Reporting**: Easy to report on completed batches  
-✓ **Model Grouping**: Auto-organized data by model on save
+[x] **Clear Work Sessions**: Each batch is a distinct work session  
+[x] **Flexible Sorting**: Move items between sections before committing  
+[x] **Non-Destructive**: Can review and modify before saving  
+[x] **Aggregated View**: Summary auto-updates as you move items  
+[x] **Audit Trail**: Every action logged with timestamp  
+[x] **Batch Reporting**: Easy to report on completed batches  
+[x] **Model Grouping**: Auto-organized data by model on save

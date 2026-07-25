@@ -2,7 +2,7 @@
 
 Complete web application for scanning QR codes and organizing items into 4 sections: **GOOD**, **NOT GOOD**, **REPAIR**, **VALIDATION**.
 
-## 📋 Overview
+## Overview
 
 **New Workflow:**
 1. **Main Page**: Search or create registrations by batch number
@@ -17,7 +17,7 @@ Complete web application for scanning QR codes and organizing items into 4 secti
 - Quantity: `900`
 - Batch: `250814-004`
 
-## 🗄️ Database Schema
+## Database Schema
 
 ### Tables
 - **parts**: Master list of part numbers and models
@@ -33,7 +33,7 @@ Complete web application for scanning QR codes and organizing items into 4 secti
 - Items move between sections as you sort them
 - Save completes the registration
 
-## 🚀 Setup Instructions
+## Setup Instructions
 
 ### Prerequisites
 - Node.js 14+
@@ -82,7 +82,7 @@ Open in browser:
 file:///c:/Marcelo/wip/frontend/index.html
 ```
 
-## 📱 Usage
+## Usage
 
 ### Main Page
 1. **Search**: Find registrations by batch number or date
@@ -157,7 +157,7 @@ Mark registration as completed
 ### GET /api/registrations/:id/summary
 Get summary by model (for archive view)
 
-## 📊 Data Organization
+## Data Organization
 
 ### During Work
 ```
@@ -187,7 +187,7 @@ IDB Gen2.0 (F Variant)
 └─ P00.558-01: GOOD=0, NOT_GOOD=0, REPAIR=0, VALIDATION=0
 ```
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 **"Batch already exists for this date":**
 - Batch numbers are unique per date
@@ -207,7 +207,7 @@ IDB Gen2.0 (F Variant)
 - Add missing parts: Run `npm run seed` again
 - Or manually: `INSERT INTO parts (part_number, model) VALUES (...)`
 
-## 📁 File Structure
+##  File Structure
 
 ```
 wip/
@@ -224,20 +224,20 @@ wip/
 └── DATABASE_DESIGN.md        # Detailed schema
 ```
 
-## 🎨 Features
+## Features
 
-- ✓ Main page with search/list registrations
-- ✓ Create new registrations (batches)
-- ✓ 4-section interface (GOOD | NOT GOOD | REPAIR | VALIDATION)
-- ✓ Real-time QR scanning
-- ✓ Drag & drop between sections
-- ✓ Quick action buttons
-- ✓ Auto-aggregate by model
-- ✓ Completed registration archive
-- ✓ Responsive UI
-- ✓ Full audit trail
+- [x] Main page with search/list registrations
+- [x] Create new registrations (batches)
+- [x] 4-section interface (GOOD | NOT GOOD | REPAIR | VALIDATION)
+- [x] Real-time QR scanning
+- [x] Drag & drop between sections
+- [x] Quick action buttons
+- [x] Auto-aggregate by model
+- [x] Completed registration archive
+- [x] Responsive UI
+- [x] Full audit trail
 
-## 🔐 Security Notes
+## Security Notes
 
 - Add authentication before production
 - Use HTTPS in production
@@ -245,7 +245,7 @@ wip/
 - Keep audit logs for 2+ years
 - Backup database daily
 
-## 📝 Sample QR Codes for Testing
+## Sample QR Codes for Testing
 
 ```
 P00.271-55 2399 250814-001

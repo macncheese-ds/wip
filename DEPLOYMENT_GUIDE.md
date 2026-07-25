@@ -4,18 +4,18 @@
 
 **What's New:** This is a completely redesigned system using a **registration-based workflow** where items can be moved between 4 sections (GOOD, NOT GOOD, REPAIR, VALIDATION) before saving.
 
-**Old System:** Simple scan→categorize→record workflow  
-**New System:** Batch registration → scan to GOOD → drag between sections → save when complete
+**Old System:** Simple scan->categorize->record workflow  
+**New System:** Batch registration -> scan to GOOD -> drag between sections -> save when complete
 
 ---
 
 ## Prerequisites
 
-✓ MySQL 5.7+ (running and accessible)  
-✓ Node.js 14+ (for backend server)  
-✓ npm (for dependency management)  
-✓ Port 3000 available (or configured in .env)  
-✓ Web browser (Chrome, Firefox, or Edge)
+[x] MySQL 5.7+ (running and accessible)  
+[x] Node.js 14+ (for backend server)  
+[x] npm (for dependency management)  
+[x] Port 3000 available (or configured in .env)  
+[x] Web browser (Chrome, Firefox, or Edge)
 
 ---
 
@@ -55,7 +55,7 @@ mysql -u root wip_scanner -e "SHOW TABLES;"
 +-----------------------------+
 ```
 
-✓ If you see 5 tables, database is ready!
+[x] If you see 5 tables, database is ready!
 
 ---
 
@@ -101,12 +101,12 @@ npm run seed
 
 **Expected Output:**
 ```
-✓ Connected to database
-✓ Inserted 9 sample parts
-✓ Seed completed successfully
+Connected to database
+Inserted 9 sample parts
+Seed completed successfully
 ```
 
-✓ Database now has 9 test parts ready for scanning
+[x] Database now has 9 test parts ready for scanning
 
 ---
 
@@ -124,7 +124,7 @@ Database connected to wip_scanner
 ```
 
 ### 3.2 Keep Terminal Open
-⚠️ **DO NOT CLOSE THIS TERMINAL** - your backend is running here!
+! **DO NOT CLOSE THIS TERMINAL** - your backend is running here!
 
 ### 3.3 Test API (Open NEW Terminal)
 ```powershell
@@ -136,7 +136,7 @@ Invoke-WebRequest http://localhost:3000/api/health
 OK
 ```
 
-✓ Backend is running and responding!
+[x] Backend is running and responding!
 
 ---
 
@@ -162,7 +162,7 @@ You should see:
 - "+ New Registration" button
 - Empty registrations list (no registrations yet)
 
-✓ **Action:**
+[x] **Action:**
 1. Click "+ New Registration"
 2. Modal appears with:
    - Batch Number: `BATCH-TEST-001`
@@ -177,14 +177,14 @@ You should see:
 - QR Input field
 - 4 sections: GOOD (green) | NOT GOOD (red) | REPAIR (yellow) | VALIDATION (blue)
 
-✓ **Action - Scan Items:**
+[x] **Action - Scan Items:**
 1. Click QR Input field
 2. Paste: `P00.271-55 2399 250814-001`
 3. Press Enter
 4. Item appears in GOOD section:
    - **P00.271-55** (Model: FCM-30 A TOP) - Qty: 2399
 
-✓ **Action - Scan Second Item:**
+[x] **Action - Scan Second Item:**
 1. In QR Input: `P00.271-63 120 250814-001`
 2. Press Enter
 3. Item appears in GOOD section:
@@ -192,13 +192,13 @@ You should see:
 
 ### 5.3 Move Items Between Sections
 
-✓ **Option 1 - Use Action Buttons:**
+[x] **Option 1 - Use Action Buttons:**
 1. Hover over item in GOOD section
 2. Click red "BAD" button → moves to NOT GOOD
 3. Click yellow "FIX" button → moves to REPAIR
-4. Click blue "VALID" button → moves to VALIDATION
+3. Click blue "VALID" button -> moves to VALIDATION
 
-✓ **Option 2 - Drag & Drop:**
+[x] **Option 2 - Drag & Drop:**
 1. Click and hold item
 2. Drag to different section
 3. Release to drop
@@ -208,13 +208,13 @@ You should see:
 
 ### 5.4 Save Registration
 
-✓ **Action:**
-1. With items in different sections, click "✓ Save & Complete"
+[x] **Action:**
+1. With items in different sections, click "Save & Complete"
 2. Backend confirms save
 3. Status changes to "completed"
 4. Returns to main page
 
-✓ **On Main Page:**
+[x] **On Main Page:**
 - Your registration card appears
 - Shows 4 section summary:
   - Green badge: count in GOOD
@@ -224,7 +224,7 @@ You should see:
 
 ### 5.5 View Archived Registration
 
-✓ **Action:**
+[x] **Action:**
 1. Click completed registration card on main page
 2. Opens Detail Page in view-only mode
 3. Shows all 4 sections with their final distribution
@@ -281,7 +281,7 @@ mysql -u root wip_scanner -e "SELECT * FROM registration_summary WHERE registrat
 +------------------+------------+----------------+----------+---------------+----------+-----------+
 ```
 
-✓ All data is persisted correctly!
+[x] All data is persisted correctly!
 
 ---
 
@@ -302,7 +302,7 @@ mysql -u root wip_scanner -e "SELECT * FROM registration_summary WHERE registrat
 
 ## Troubleshooting
 
-### ❌ "Cannot connect to database"
+### ERROR: "Cannot connect to database"
 
 **Error in backend console:**
 ```
@@ -331,7 +331,7 @@ Error: connect ECONNREFUSED 127.0.0.1:3306
 
 ---
 
-### ❌ "Port 3000 already in use"
+### ERROR: "Port 3000 already in use"
 
 **Error:**
 ```
@@ -353,7 +353,7 @@ Error: listen EADDRINUSE: address already in use :::3000
 
 ---
 
-### ❌ "Frontend shows errors in console"
+### ERROR: "Frontend shows errors in console"
 
 **Open browser DevTools (F12):**
 1. Console tab - shows JavaScript errors
@@ -365,7 +365,7 @@ Error: listen EADDRINUSE: address already in use :::3000
 
 ---
 
-### ❌ "Drag and drop not working"
+### ERROR: "Drag and drop not working"
 
 **Verify:**
 1. Browser supports drag-drop (Chrome/Firefox/Edge all do)
@@ -375,7 +375,7 @@ Error: listen EADDRINUSE: address already in use :::3000
 
 ---
 
-### ❌ "Duplicate item error when scanning"
+### ERROR: "Duplicate item error when scanning"
 
 **This is intentional!** The system prevents duplicate parts in the same registration.
 

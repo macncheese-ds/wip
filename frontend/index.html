@@ -503,7 +503,7 @@
 </head>
 <body>
   <header>
-    <h1>📱 QR Scanner - Registrations</h1>
+    <h1>QR Scanner - Registrations</h1>
     <p>Scan items into GOOD | NOT GOOD | REPAIR | VALIDATION sections</p>
   </header>
   
@@ -527,7 +527,7 @@
     <div id="detail-page">
       <div class="detail-header">
         <div class="detail-title">
-          <button class="btn btn-secondary" onclick="goBackToMain()">← Back</button>
+          <button class="btn btn-secondary" onclick="goBackToMain()">&lt; Back</button>
           <div>
             <h2 id="detail-batch-number"></h2>
             <small id="detail-date" style="color: #666;"></small>
@@ -535,7 +535,7 @@
         </div>
         <div class="detail-actions">
           <span id="detail-status" class="reg-card-status"></span>
-          <button class="btn btn-success" id="save-btn" onclick="saveRegistration()">✓ Save & Complete</button>
+          <button class="btn btn-success" id="save-btn" onclick="saveRegistration()">Save & Complete</button>
         </div>
       </div>
       
@@ -552,7 +552,7 @@
         <!-- GOOD Section -->
         <div class="section good" ondrop="allowDrop(event)" ondragover="allowDragOver(event)">
           <div class="section-header">
-            ✓ GOOD
+            GOOD
             <span class="section-count" id="count-good">0</span>
           </div>
           <div class="section-items" id="section-good"></div>
@@ -561,7 +561,7 @@
         <!-- NOT GOOD Section -->
         <div class="section not-good" ondrop="allowDrop(event)" ondragover="allowDragOver(event)">
           <div class="section-header">
-            ✗ NOT GOOD
+            NOT GOOD
             <span class="section-count" id="count-not-good">0</span>
           </div>
           <div class="section-items" id="section-not-good"></div>
@@ -570,7 +570,7 @@
         <!-- REPAIR Section -->
         <div class="section repair" ondrop="allowDrop(event)" ondragover="allowDragOver(event)">
           <div class="section-header">
-            🔧 REPAIR
+            REPAIR
             <span class="section-count" id="count-repair">0</span>
           </div>
           <div class="section-items" id="section-repair"></div>
@@ -579,7 +579,7 @@
         <!-- VALIDATION Section -->
         <div class="section validation" ondrop="allowDrop(event)" ondragover="allowDragOver(event)">
           <div class="section-header">
-            ✔ VALIDATION
+            VALIDATION
             <span class="section-count" id="count-validation">0</span>
           </div>
           <div class="section-items" id="section-validation"></div>
@@ -633,11 +633,16 @@
           : `${API_URL}/registrations`;
         
         const response = await fetch(url);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const data = await response.json();
         
         const listDiv = document.getElementById('registrations-list');
         
-        if (data.registrations.length === 0) {
+        if (!data.registrations || data.registrations.length === 0) {
           listDiv.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #999; padding: 40px;">No registrations found</div>';
           return;
         }
@@ -782,7 +787,7 @@
                   <button class="item-btn" onclick="moveToSection(${item.id}, 'not_good')">BAD</button>
                   <button class="item-btn" onclick="moveToSection(${item.id}, 'repair')">FIX</button>
                   <button class="item-btn" onclick="moveToSection(${item.id}, 'validation')">VALID</button>
-                  <button class="item-btn remove" onclick="removeItem(${item.id})">×</button>
+                  <button class="item-btn remove" onclick="removeItem(${item.id})">X</button>
                 </div>
               </div>
             `).join('');
@@ -820,18 +825,18 @@
           
           if (response.ok) {
             msgDiv.className = 'qr-message success';
-            msgDiv.textContent = `✓ Added: ${data.data.part_number} (${data.data.quantity} units)`;
+            msgDiv.textContent = `Added: ${data.data.part_number} (${data.data.quantity} units)`;
             e.target.value = '';
             
             // Reload detail
             setTimeout(() => openRegistrationDetail(currentRegistrationId), 500);
           } else {
             msgDiv.className = 'qr-message error';
-            msgDiv.textContent = '✗ Error: ' + data.error;
+            msgDiv.textContent = 'Error: ' + data.error;
           }
         } catch (error) {
           msgDiv.className = 'qr-message error';
-          msgDiv.textContent = '✗ Error: ' + error.message;
+            msgDiv.textContent = 'Error: ' + error.message;
         }
       }
     });
@@ -916,7 +921,7 @@
         });
         
         if (response.ok) {
-          alert('✓ Registration saved!');
+          alert('Registration saved!');
           goBackToMain();
         } else {
           const data = await response.json();

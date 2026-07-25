@@ -1,6 +1,6 @@
 # Registration System - Complete Setup Guide
 
-## 🎯 What Was Created
+## What Was Created
 
 You now have a complete web app for QR code scanning inventory tracking with good/not good status categorization by model.
 
@@ -26,7 +26,7 @@ wip/
 │   └── package.json                   ← Optional for build tools
 ```
 
-## 🚀 Quick Start (5 Steps)
+## Quick Start (5 Steps)
 
 ### Step 1: Database Setup
 ```bash
@@ -72,9 +72,9 @@ file:///c:/Marcelo/wip/frontend/index.html
 1. Click "Scanner" tab
 2. Scan QR code: `P00.558-00 900 250814-004`
 3. Click **GOOD** or **NOT GOOD**
-4. Done! ✓
+4. Done!
 
-## 📊 System Architecture
+## System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -101,7 +101,7 @@ file:///c:/Marcelo/wip/frontend/index.html
 └─────────────────────────────────────────────────────────┘
 ```
 
-## 🔍 Key Features Implemented
+## Key Features Implemented
 
 | Feature | Where | How It Works |
 |---------|-------|------------|
@@ -113,17 +113,17 @@ file:///c:/Marcelo/wip/frontend/index.html
 | History Search | /api/scans/:part | List all scans for part |
 | Archive | /api/archive/:part | Mark as archived |
 
-## 🎨 Frontend Workflow
+## Frontend Workflow
 
 ```
 ┌─────────────────────────────────────────────────────┐
 │  1. SCANNER TAB                                      │
 │  ┌──────────────────────────────────────────────┐  │
 │  │ [Scan QR code here...________________]       │  │
-│  │ [✓ GOOD] [✗ NOT GOOD]                       │  │
+│  │ [GOOD] [NOT GOOD]                       │  │
 │  │                                              │  │
-│  │ ✓ Scan Recorded Successfully!               │  │
-│  │ ✓ GOOD                                       │  │
+│  │ Scan Recorded Successfully!               │  │
+│  │ GOOD                                       │  │
 │  │ Part: P00.558-00                             │  │
 │  │ Model: IDB Gen2.0 (F Variant)                │  │
 │  │ Quantity: 900                                │  │
@@ -156,7 +156,7 @@ file:///c:/Marcelo/wip/frontend/index.html
 └─────────────────────────────────────────────────────┘
 ```
 
-## 💾 Database Tables
+## Database Tables
 
 ### parts (Master Reference)
 - part_number (unique key)
@@ -180,7 +180,7 @@ file:///c:/Marcelo/wip/frontend/index.html
 - scan_id, action, old_status, new_status
 - created_at, user_notes
 
-## ⚙️ Configuration Files
+## Configuration Files
 
 ### backend/.env (REQUIRED - create by copying .env.example)
 ```
@@ -232,7 +232,7 @@ mysql -u root wip_scanner
 > SELECT * FROM inventory_summary;
 ```
 
-## 🐛 Common Issues
+## Common Issues
 
 | Issue | Solution |
 |-------|----------|
@@ -243,9 +243,9 @@ mysql -u root wip_scanner
 | API returns 400 | Check QR format: "PART QTY DATE-BATCH" |
 | Can't connect API | Check backend is running on port 3000 |
 
-## 📈 Next Steps
+## Next Steps
 
-### Phase 1: Get Working ✓
+### Phase 1: Get Working
 - [x] Database schema created
 - [x] Backend API built
 - [x] Frontend interface ready
@@ -271,7 +271,7 @@ mysql -u root wip_scanner
 - [ ] Automated email reports
 - [ ] Mobile app version
 
-## 📞 Support
+## Support
 
 1. Check documentation:
    - README.md - Overview & usage
@@ -288,7 +288,7 @@ mysql -u root wip_scanner
    - Check API response format
    - Verify database has data
 
-## 📝 Example QR Codes for Testing
+## Example QR Codes for Testing
 
 ```
 P00.271-55 2399 250814-004
@@ -301,8 +301,8 @@ P00.558-01 10728 250814-009
 
 ---
 
-**Status:** ✅ Ready to use!
+**Status:** Ready to use!
 
 **Next:** Follow the Quick Start 5 Steps above, then click "Scanner" tab and start scanning.
 
-Good luck! 🚀
+Good luck!

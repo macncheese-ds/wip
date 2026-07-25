@@ -96,12 +96,12 @@ c:\Marcelo\wip\
 
 | File | Purpose | Important |
 |------|---------|-----------|
-| index.js | Express API | ✓ Core server |
-| db.js | Database logic | ✓ Core queries |
-| init.sql | Database schema | ✓ Run once |
-| seed.js | Sample parts | ✓ Run once |
-| index.html | Web interface | ✓ Main UI |
-| .env | Secrets | ✓ Never commit |
+| index.js | Express API | [x] Core server |
+| db.js | Database logic | [x] Core queries |
+| init.sql | Database schema | [x] Run once |
+| seed.js | Sample parts | [x] Run once |
+| index.html | Web interface | [x] Main UI |
+| .env | Secrets | [x] Never commit |
 | start.bat | Quick launch | Windows only |
 
 ## Key Configuration Files
